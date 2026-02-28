@@ -1,105 +1,74 @@
-/* Pengaturan Dasar Mode Gelap */
+/* Mode Gelap & Layout Dasar */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1a1a1a;
-    color: #f1f1f1;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0e1621; /* Biru gelap khas Telegram */
+    color: #ffffff;
     margin: 0;
-    padding: 0;
     display: flex;
     height: 100vh;
-    overflow: hidden;
 }
 
-/* Sidebar - Daftar Obrolan (Desktop) */
+/* Sidebar Ala Telegram */
 .sidebar {
-    width: 320px;
-    background-color: #212121;
-    border-right: 1px solid #333;
+    width: 300px;
+    background-color: #17212b;
+    border-right: 1px solid #000;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 }
 
 .chat-item {
     display: flex;
     align-items: center;
-    padding: 12px 15px;
-    border-bottom: 1px solid #2c2c2c;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.chat-item:hover {
-    background-color: #2a2a2a;
+    padding: 15px;
+    border-bottom: 1px solid #0e1621;
 }
 
 .avatar {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background-color: #0088cc; /* Warna khas biru Telegram */
+    background-color: #2b5278;
     margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    color: white;
 }
 
-.chat-details .name {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.chat-details .status {
-    font-size: 12px;
-    color: #0088cc;
-}
-
-/* Area Utama - Galeri */
+/* Area Galeri Utama */
 .main-content {
     flex-grow: 1;
-    background-color: #0e1621; /* Warna background chat Telegram gelap */
     display: flex;
     flex-direction: column;
 }
 
 .header {
+    background-color: #17212b;
     padding: 15px;
-    background-color: #212121;
-    border-bottom: 1px solid #333;
     font-weight: bold;
+    border-bottom: 1px solid #000;
 }
 
 .gallery {
-    flex-grow: 1;
     padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
     overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 10px;
 }
 
-/* Tampilan Foto */
 .gallery img {
-    max-width: 280px;
-    height: auto;
-    border-radius: 12px;
-    border: 1px solid #333;
-    cursor: pointer;
-    transition: transform 0.2s;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: 0.3s;
 }
 
-.gallery img:hover {
-    transform: scale(1.02);
-}
+.gallery img:hover { transform: scale(1.05); }
 
 /* Responsif Android */
-@media (max-width: 768px) {
-    body { flex-direction: column; height: auto; overflow: visible; }
-    .sidebar { width: 100%; height: auto; display: none; } /* Sembunyikan sidebar di mobile agar fokus ke testi */
-    .main-content { height: 100vh; }
-    .gallery { justify-content: center; }
-    .gallery img { max-width: 90%; }
+@media (max-width: 600px) {
+    .sidebar { display: none; } /* Sembunyikan sidebar di Android */
+    .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
