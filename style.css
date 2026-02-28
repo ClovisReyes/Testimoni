@@ -1,106 +1,36 @@
 /* Layout & Warna Gelap Telegram */
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #0e1621;
-    color: #ffffff;
-    margin: 0;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0e1621; color: #ffffff; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+#sidebar { width: 280px; flex-shrink: 0; background-color: #17212b; border-right: 1px solid #000000; transition: margin-left 0.3s ease; display: flex; flex-direction: column; overflow-y: auto; }
+#sidebar.hidden { margin-left: -280px; }
+.chat-item { display: flex; align-items: center; padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #000000; transition: background 0.2s; }
+.chat-item:hover, .chat-item.active { background-color: #2b5278; }
+.avatar { width: 45px; height: 45px; min-width: 45px; border-radius: 50%; background-color: #517da2; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.chat-details { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.chat-details b { font-size: 15px; }
+.chat-details small { font-size: 12px; color: #6ab3f3; }
 
-/* Sidebar Toggle */
-#sidebar {
-    width: 280px;
-    background-color: #17212b;
-    border-right: 1px solid #000;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-}
+.main-content { flex-grow: 1; display: flex; flex-direction: column; min-width: 0; }
+.header { background-color: #17212b; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #000000; }
+#toggle-btn { background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer; margin-right: 15px; padding: 0; }
+#toggle-btn:hover { color: #6ab3f3; }
 
-#sidebar.hidden {
-    margin-left: -280px;
-}
+.gallery { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; overflow-y: auto; flex-grow: 1; }
+.card { background-color: #182533; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #222; }
+.card img { width: 100%; cursor: pointer; transition: opacity 0.2s; }
+.card img:hover { opacity: 0.8; }
+.info { padding: 10px; font-size: 13px; }
+.info b { display: block; margin-bottom: 5px; }
+.info .date { color: #6ab3f3; font-size: 11px; }
 
-/* Item Menu / Kategori */
-.chat-item {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #0e1621;
-    transition: 0.2s;
-}
-
-.chat-item:hover, .chat-item.active {
-    background-color: #2b5278;
-}
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #517da2;
-    margin-right: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-/* Area Utama */
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.header {
-    background-color: #17212b;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    border-bottom: 1px solid #000;
-}
-
-#toggle-btn {
-    background: none;
-    border: none;
-    color: #6ab3f3;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* Galeri & Caption */
-.gallery {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    overflow-y: auto;
-}
-
-.card {
-    background-color: #182533;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.card img { width: 100%; cursor: pointer; }
-
-.info {
-    padding: 10px;
-    font-size: 13px;
-}
-
-.info .date { color: #6ab3f3; font-size: 11px; display: block; margin-top: 5px; }
+/* Modal / Lightbox (Popup Gambar) */
+.modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; transition: 0.3s ease; }
+.modal.hidden { display: none; }
+.modal-content { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); cursor: zoom-out; }
+.close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
+.close-btn:hover { color: #ff6b6b; }
 
 /* Android View */
-@media (max-width: 600px) {
-    #sidebar { position: absolute; z-index: 10; height: 100%; }
+@media (max-width: 768px) {
+    #sidebar { position: absolute; height: 100%; z-index: 1000; box-shadow: 2px 0 5px rgba(0,0,0,0.5); }
     .gallery { grid-template-columns: 1fr; }
 }
