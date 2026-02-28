@@ -29,7 +29,7 @@ mainContent.addEventListener('click', function() {
     }
 });
 
-// Fungsi memuat gambar
+// Fungsi memuat gambar (SUDAH TERMASUK FITUR HITUNG OTOMATIS)
 async function loadPhotos(folderName, element) {
     // Styling menu aktif
     if(element) {
@@ -43,7 +43,9 @@ async function loadPhotos(folderName, element) {
         }
     }
 
-    document.getElementById('folder-name').innerText = folderName;
+    const folderTitle = document.getElementById('folder-name');
+    folderTitle.innerText = `${folderName} (Menghitung...)`;
+    
     const gallery = document.getElementById('gallery');
     gallery.innerHTML = '<p style="padding:20px;">Memuat data dari GitHub...</p>';
 
@@ -57,43 +59,64 @@ async function loadPhotos(folderName, element) {
 
         const files = await response.json();
         gallery.innerHTML = '';
-        let hasImages = false;
+        
+        // HITUNG OTOMATIS: Memisahkan file gambar dan menghitung jumlahnya
+        const images = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp)$/i));
+        const totalTesti = images.length;
+        
+        // 1. Munculkan jumlah di Header Atas
+        folderTitle.innerText = `${folderName} - ${totalTesti} Testimoni`;
 
-        files.forEach(file => {
-            if (file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
-                hasImages = true;
-                const card = document.createElement('div');
-                card.className = 'card';
-                
-                // SISTEM CAPTION
-                const fileNameTanpaExt = file.name.replace(/\.[^/.]+$/, ""); // Buang .jpg
-                const nameParts = fileNameTanpaExt.split('_');
-                
-                let caption = nameParts[0].replace(/-/g, ' '); // Ganti strip jadi spasi
-                caption = caption.replace(/~/g, '<br>'); // Ganti tilde jadi baris baru
-                
-                const date = nameParts[1] ? nameParts[1] : 'Tanggal tidak ada';
-
-                card.innerHTML = `
-                    <img src="${file.download_url}" loading="lazy" onclick="openModal(this.src)">
-                    <div class="info">
-                        <b>${caption}</b>
-                        <span class="date">📅 Posted: ${date}</span>
-                    </div>
-                `;
-                gallery.appendChild(card);
+        // 2. Munculkan jumlah di bawah nama Menu Sidebar
+        if (element) {
+            let chatDetails = element.querySelector('.chat-details');
+            let smallTag = chatDetails.querySelector('small');
+            
+            // Buat teks kecil otomatis jika belum ada
+            if (!smallTag) {
+                chatDetails.insertAdjacentHTML('beforeend', `<br><small style="color: #6ab3f3;">${totalTesti} Testimoni</small>`);
+            } else {
+                smallTag.innerText = `${totalTesti} Testimoni`;
             }
-        });
-
-        if (!hasImages) {
-            gallery.innerHTML = `<p style="padding:20px;">Tidak ada gambar di folder ini.</p>`;
         }
+
+        // Jika foldernya kosong / tidak ada gambar
+        if (totalTesti === 0) {
+            gallery.innerHTML = `<p style="padding:20px;">Tidak ada gambar di folder ini.</p>`;
+            return;
+        }
+
+        // Tampilkan semua gambar
+        images.forEach(file => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            // SISTEM CAPTION
+            const fileNameTanpaExt = file.name.replace(/\.[^/.]+$/, ""); // Buang .jpg
+            const nameParts = fileNameTanpaExt.split('_');
+            
+            let caption = nameParts[0].replace(/-/g, ' '); // Ganti strip jadi spasi
+            caption = caption.replace(/~/g, '<br>'); // Ganti tilde jadi baris baru
+            
+            const date = nameParts[1] ? nameParts[1] : 'Tanggal tidak ada';
+
+            card.innerHTML = `
+                <img src="${file.download_url}" loading="lazy" onclick="openModal(this.src)">
+                <div class="info">
+                    <b>${caption}</b>
+                    <span class="date">📅 Posted: ${date}</span>
+                </div>
+            `;
+            gallery.appendChild(card);
+        });
 
     } catch (e) { 
         if (e.message === 'Limit_API') {
             gallery.innerHTML = `<p style="padding:20px; color:#ff6b6b;">Mencapai limit API GitHub. Tunggu sebentar lalu refresh.</p>`;
+            folderTitle.innerText = `${folderName} (Error Limit)`;
         } else {
             gallery.innerHTML = `<p style="padding:20px; color:#ff6b6b;">Folder "${baseFolder}/${folderName}" kosong atau belum Anda buat di GitHub.</p>`; 
+            folderTitle.innerText = `${folderName} (0 Testimoni)`;
         }
     }
 }
