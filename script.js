@@ -41,8 +41,15 @@ async function loadPhotos(folderName, element) {
                 const card = document.createElement('div');
                 card.className = 'card';
                 
+                // SISTEM CAPTION MULTI-BARIS (UPDATE TERBARU)
                 const nameParts = file.name.split('_');
-                const caption = nameParts[0].replace(/-/g, ' ');
+                
+                // 1. Ganti strip (-) jadi spasi
+                let caption = nameParts[0].replace(/-/g, ' '); 
+                
+                // 2. Ganti tilde (~) jadi Enter (<br>)
+                caption = caption.replace(/~/g, '<br>'); 
+                
                 const date = nameParts[1] ? nameParts[1].split('.')[0] : 'Tanggal tidak ada';
 
                 card.innerHTML = `
