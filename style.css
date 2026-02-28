@@ -97,17 +97,16 @@ body {
 }
 
 /* =========================================
-   PERBAIKAN TATA LETAK: MASONRY LAYOUT 
+   PERUBAHAN: KONSEP SCROLL (LIST VIEW)
    ========================================= */
 .gallery {
     padding: 20px;
-    /* Menggunakan sistem kolom agar rapi seperti Pinterest */
-    column-count: 4; /* Tampil 4 kolom untuk layar monitor besar */
-    column-gap: 15px;
+    display: flex;
+    flex-direction: column; /* Mengubah susunan menjadi dari atas ke bawah */
+    align-items: center; /* Membuat kartu berada di tengah layar untuk PC */
+    gap: 30px; /* Jarak antar testimoni */
     overflow-y: auto;
     flex-grow: 1;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .card {
@@ -117,19 +116,17 @@ body {
     display: flex;
     flex-direction: column;
     border: 1px solid #4a6a8a;
-    /* Mencegah kartu terpotong menjadi dua bagian di antara kolom */
-    break-inside: avoid;
-    page-break-inside: avoid;
-    /* Memberikan jarak bawah antar kartu */
-    margin-bottom: 15px; 
+    width: 100%;
+    max-width: 500px; /* Lebar maksimal kartu agar tidak kepanjangan di layar lebar */
 }
 
 .card img {
     width: 100%;
-    /* Menjaga proporsi gambar asli */
-    height: auto; 
+    height: auto; /* Gambar akan tampil utuh dari atas ke bawah */
+    display: block;
     cursor: pointer;
     transition: opacity 0.2s;
+    border-bottom: 1px solid #101924;
 }
 
 .card img:hover {
@@ -137,9 +134,8 @@ body {
 }
 
 .info {
-    padding: 10px;
-    font-size: 13px;
-    background-color: #182533; /* Memastikan background keterangan solid */
+    padding: 15px;
+    font-size: 14px;
 }
 
 .info b {
@@ -150,7 +146,7 @@ body {
 
 .info .date {
     color: #6ab3f3;
-    font-size: 11px;
+    font-size: 12px;
     display: block;
     margin-top: 5px;
 }
@@ -197,24 +193,8 @@ body {
 }
 
 /* =========================================
-   PENGATURAN RESPONSIVE (UKURAN LAYAR)
+   PENGATURAN RESPONSIVE ANDROID / HP
    ========================================= */
-
-/* Untuk Laptop Standar / Tablet Horizontal */
-@media (max-width: 1200px) {
-    .gallery {
-        column-count: 3;
-    }
-}
-
-/* Untuk Tablet Vertikal / Laptop Kecil */
-@media (max-width: 900px) {
-    .gallery {
-        column-count: 2;
-    }
-}
-
-/* Untuk HP Android / iOS */
 @media (max-width: 768px) {
     #sidebar {
         position: absolute;
@@ -224,11 +204,10 @@ body {
     }
     
     .gallery {
-        column-count: 1; /* Di HP akan tampil 1 kolom penuh ke bawah */
         padding: 15px;
     }
-    
+
     .card {
-        margin-bottom: 20px; /* Jarak yang sedikit lebih lega di HP */
+        max-width: 100%; /* Di HP, kartu akan otomatis memenuhi layar dari kiri ke kanan */
     }
 }
