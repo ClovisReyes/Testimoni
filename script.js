@@ -6,24 +6,19 @@ const repo = 'Testimoni';
 const baseFolder = 'Testi'; // Nama folder utama Anda di GitHub
 
 // ==========================================
-// MESIN OTOMATIS (Tidak perlu diedit)
+// LOGIKA WEBSITE & SIDEBAR
 // ==========================================
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('toggle-btn');
 
-// Fungsi Buka Tutup Sidebar
 toggleBtn.addEventListener('click', function() {
     sidebar.classList.toggle('hidden');
 });
 
-// Fungsi Memuat Foto Otomatis
 async function loadPhotos(folderName, element) {
-    // Efek ganti warna pada tab yang dipilih
     if(element) {
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
-        
-        // Otomatis tutup sidebar di mode HP setelah klik menu
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
         }
@@ -33,7 +28,6 @@ async function loadPhotos(folderName, element) {
     const gallery = document.getElementById('gallery');
     gallery.innerHTML = '<p style="padding:20px;">Memuat data dari GitHub...</p>';
 
-    // Memanggil API GitHub menggunakan variabel baseFolder dan folderName
     const url = `https://api.github.com/repos/${username}/${repo}/contents/${baseFolder}/${folderName}`;
     
     try {
@@ -47,14 +41,12 @@ async function loadPhotos(folderName, element) {
                 const card = document.createElement('div');
                 card.className = 'card';
                 
-                // Sistem Caption Otomatis dari Nama File
                 const nameParts = file.name.split('_');
                 const caption = nameParts[0].replace(/-/g, ' ');
                 const date = nameParts[1] ? nameParts[1].split('.')[0] : 'Tanggal tidak ada';
 
-                // Klik gambar untuk buka di tab baru
                 card.innerHTML = `
-                    <img src="${file.download_url}" loading="lazy" onclick="window.open(this.src, '_blank')">
+                    <img src="${file.download_url}" loading="lazy" onclick="openModal(this.src)">
                     <div class="info">
                         <b>${caption}</b>
                         <span class="date">📅 Posted: ${date}</span>
@@ -68,7 +60,34 @@ async function loadPhotos(folderName, element) {
     }
 }
 
-// Menjalankan fungsi klik pertama kali secara otomatis saat website dimuat
+// ==========================================
+// FUNGSI POPUP GAMBAR (LAYAR PENUH)
+// ==========================================
+function openModal(imageSrc) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    modalImg.src = imageSrc;
+    modal.classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('image-modal').classList.add('hidden');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     loadPhotos('Fish It!', document.querySelector('.chat-item.active'));
 });
+
+// ==========================================
+// KEAMANAN (ANTI KLIK KANAN & ANTI INSPECT)
+// ==========================================
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) return false;
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+}
