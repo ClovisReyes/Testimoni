@@ -5,7 +5,7 @@ body {
     color: #ffffff;
     margin: 0;
     display: flex;
-    height: 100dvh; /* dvh agar tidak terpotong bar HP */
+    height: 100dvh; 
     overflow: hidden;
 }
 
@@ -18,14 +18,13 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    z-index: 1001; /* Di atas konten */
+    z-index: 1001; 
 }
 
 #sidebar.hidden {
     margin-left: -280px;
 }
 
-/* Styling untuk Deskripsi di atas Sidebar */
 .sidebar-info {
     padding: 25px 15px;
     background-color: #17212b;
@@ -121,7 +120,26 @@ body {
 }
 
 /* =========================================
-   KONSEP SCROLL TERSUSUN KE BAWAH
+   TOMBOL SCROLL KE ATAS (TITIK TIGA)
+   ========================================= */
+#scroll-top-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto; /* Mendorong tombol ke ujung kanan */
+    padding: 0 10px;
+    transition: color 0.2s;
+}
+
+#scroll-top-btn:hover {
+    color: #6ab3f3;
+}
+
+/* =========================================
+   GALERI SCROLL
    ========================================= */
 .gallery {
     padding: 20px;
@@ -235,7 +253,6 @@ body {
         max-width: 100%;
     }
 
-    /* Area konten agak gelap saat sidebar dibuka */
     .main-content.sidebar-active {
         filter: brightness(0.4);
         pointer-events: none; 
