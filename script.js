@@ -108,23 +108,24 @@ toggleBtn.addEventListener('click', (e) => {
     }
 });
 
-// 2. Fungsi Klik Luar (Area Konten) untuk Tutup Sidebar
-mainContent.addEventListener('click', () => {
-    if (window.innerWidth <= 768 && !sidebar.classList.contains('hidden')) {
-        sidebar.classList.add('hidden');
-        mainContent.classList.remove('sidebar-active');
+const mainContent = document.querySelector('.main-content');
+
+// Fungsi untuk toggle sidebar
+toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation(); // Mencegah trigger klik ke mainContent
+    sidebar.classList.toggle('hidden');
+    if (window.innerWidth <= 768) {
+        mainContent.classList.toggle('sidebar-open');
     }
 });
 
-// Pastikan saat pilih menu di sidebar, sidebar juga tertutup di HP
-function loadPhotos(folderName, element) {
-    // ... kode loadPhotos Anda yang sudah ada ...
-    
-    if (window.innerWidth <= 768) {
+// Klik di area main content untuk menutup sidebar (Khusus HP)
+mainContent.addEventListener('click', function() {
+    if (window.innerWidth <= 768 && !sidebar.classList.contains('hidden')) {
         sidebar.classList.add('hidden');
-        mainContent.classList.remove('sidebar-active');
+        mainContent.classList.remove('sidebar-open');
     }
-}
+});
 // ==========================================
 // KEAMANAN (ANTI KLIK KANAN & ANTI INSPECT)
 // ==========================================
