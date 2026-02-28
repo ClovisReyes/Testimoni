@@ -126,9 +126,8 @@ function closeModal() {
 document.addEventListener('DOMContentLoaded', () => {
     const activeItem = document.querySelector('.chat-item.active');
     if(activeItem) {
-        // Mengambil nama folder dari tulisan bold di dalam menu aktif
-        const folderName = activeItem.querySelector('b').innerText;
-        loadPhotos(folderName, activeItem);
+        // Mensimulasikan klik otomatis pada menu agar tidak salah baca nama folder
+        activeItem.click();
     }
 });
 
