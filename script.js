@@ -95,15 +95,36 @@ toggleBtn.addEventListener('click', function(e) {
         mainContent.classList.toggle('sidebar-open');
     }
 });
+const mainContent = document.querySelector('.main-content');
+const toggleBtn = document.getElementById('toggle-btn');
+const sidebar = document.getElementById('sidebar');
 
-// Klik di area main content untuk menutup sidebar (Khusus HP)
-mainContent.addEventListener('click', function() {
-    if (window.innerWidth <= 768 && !sidebar.classList.contains('hidden')) {
-        sidebar.classList.add('hidden');
-        mainContent.classList.remove('sidebar-open');
+// 1. Fungsi Klik Tombol Menu
+toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Mencegah klik tembus ke mainContent
+    sidebar.classList.toggle('hidden');
+    if (window.innerWidth <= 768) {
+        mainContent.classList.toggle('sidebar-active');
     }
 });
 
+// 2. Fungsi Klik Luar (Area Konten) untuk Tutup Sidebar
+mainContent.addEventListener('click', () => {
+    if (window.innerWidth <= 768 && !sidebar.classList.contains('hidden')) {
+        sidebar.classList.add('hidden');
+        mainContent.classList.remove('sidebar-active');
+    }
+});
+
+// Pastikan saat pilih menu di sidebar, sidebar juga tertutup di HP
+function loadPhotos(folderName, element) {
+    // ... kode loadPhotos Anda yang sudah ada ...
+    
+    if (window.innerWidth <= 768) {
+        sidebar.classList.add('hidden');
+        mainContent.classList.remove('sidebar-active');
+    }
+}
 // ==========================================
 // KEAMANAN (ANTI KLIK KANAN & ANTI INSPECT)
 // ==========================================
