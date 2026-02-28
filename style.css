@@ -97,14 +97,14 @@ body {
 }
 
 /* =========================================
-   PERUBAHAN: KONSEP SCROLL (LIST VIEW)
+   KONSEP SCROLL TERSUSUN KE BAWAH (DIPERBAIKI)
    ========================================= */
 .gallery {
     padding: 20px;
     display: flex;
-    flex-direction: column; /* Mengubah susunan menjadi dari atas ke bawah */
-    align-items: center; /* Membuat kartu berada di tengah layar untuk PC */
-    gap: 30px; /* Jarak antar testimoni */
+    flex-direction: column;
+    align-items: center; 
+    gap: 30px; 
     overflow-y: auto;
     flex-grow: 1;
 }
@@ -117,12 +117,15 @@ body {
     flex-direction: column;
     border: 1px solid #4a6a8a;
     width: 100%;
-    max-width: 500px; /* Lebar maksimal kartu agar tidak kepanjangan di layar lebar */
+    max-width: 500px; 
+    /* KUNCI PERBAIKAN: Mencegah kartu dipotong/dipencet oleh Flexbox */
+    flex-shrink: 0; 
+    height: auto;
 }
 
 .card img {
     width: 100%;
-    height: auto; /* Gambar akan tampil utuh dari atas ke bawah */
+    height: auto; 
     display: block;
     cursor: pointer;
     transition: opacity 0.2s;
@@ -136,6 +139,9 @@ body {
 .info {
     padding: 15px;
     font-size: 14px;
+    background-color: #182533;
+    /* Mencegah area teks ikut terkompresi */
+    flex-shrink: 0;
 }
 
 .info b {
@@ -193,7 +199,7 @@ body {
 }
 
 /* =========================================
-   PENGATURAN RESPONSIVE ANDROID / HP
+   PENGATURAN RESPONSIVE 
    ========================================= */
 @media (max-width: 768px) {
     #sidebar {
@@ -208,6 +214,6 @@ body {
     }
 
     .card {
-        max-width: 100%; /* Di HP, kartu akan otomatis memenuhi layar dari kiri ke kanan */
+        max-width: 100%;
     }
 }
