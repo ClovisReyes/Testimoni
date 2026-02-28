@@ -29,7 +29,7 @@ mainContent.addEventListener('click', function() {
     }
 });
 
-// Fungsi memuat gambar (SUDAH TERMASUK FITUR HITUNG OTOMATIS)
+// Fungsi memuat gambar 
 async function loadPhotos(folderName, element) {
     // Styling menu aktif
     if(element) {
@@ -64,21 +64,8 @@ async function loadPhotos(folderName, element) {
         const images = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp)$/i));
         const totalTesti = images.length;
         
-        // 1. Munculkan jumlah di Header Atas
+        // Munculkan jumlah HANYA di Header Atas
         folderTitle.innerText = `${folderName} - ${totalTesti} Testimoni`;
-
-        // 2. Munculkan jumlah di bawah nama Menu Sidebar
-        if (element) {
-            let chatDetails = element.querySelector('.chat-details');
-            let smallTag = chatDetails.querySelector('small');
-            
-            // Buat teks kecil otomatis jika belum ada
-            if (!smallTag) {
-                chatDetails.insertAdjacentHTML('beforeend', `<br><small style="color: #6ab3f3;">${totalTesti} Testimoni</small>`);
-            } else {
-                smallTag.innerText = `${totalTesti} Testimoni`;
-            }
-        }
 
         // Jika foldernya kosong / tidak ada gambar
         if (totalTesti === 0) {
@@ -135,11 +122,13 @@ function closeModal() {
     document.getElementById('image-modal').classList.add('hidden');
 }
 
-// Menjalankan "Fish It!" otomatis saat web pertama kali dibuka
+// Menjalankan otomatis saat web pertama kali dibuka
 document.addEventListener('DOMContentLoaded', () => {
     const activeItem = document.querySelector('.chat-item.active');
     if(activeItem) {
-        loadPhotos('Fish It!', activeItem);
+        // Mengambil nama folder dari tulisan bold di dalam menu aktif
+        const folderName = activeItem.querySelector('b').innerText;
+        loadPhotos(folderName, activeItem);
     }
 });
 
