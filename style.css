@@ -96,18 +96,20 @@ body {
     color: #6ab3f3;
 }
 
-/* PERBAIKAN: align-items: start agar kotak foto pas dan tidak melar ke bawah */
+/* =========================================
+   PERBAIKAN TATA LETAK: MASONRY LAYOUT 
+   ========================================= */
 .gallery {
     padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 15px;
+    /* Menggunakan sistem kolom agar rapi seperti Pinterest */
+    column-count: 4; /* Tampil 4 kolom untuk layar monitor besar */
+    column-gap: 15px;
     overflow-y: auto;
     flex-grow: 1;
-    align-items: start;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* PERBAIKAN: Border kotak warna biru pudar agar terlihat jelas bedanya */
 .card {
     background-color: #182533;
     border-radius: 8px;
@@ -115,10 +117,17 @@ body {
     display: flex;
     flex-direction: column;
     border: 1px solid #4a6a8a;
+    /* Mencegah kartu terpotong menjadi dua bagian di antara kolom */
+    break-inside: avoid;
+    page-break-inside: avoid;
+    /* Memberikan jarak bawah antar kartu */
+    margin-bottom: 15px; 
 }
 
 .card img {
     width: 100%;
+    /* Menjaga proporsi gambar asli */
+    height: auto; 
     cursor: pointer;
     transition: opacity 0.2s;
 }
@@ -130,16 +139,20 @@ body {
 .info {
     padding: 10px;
     font-size: 13px;
+    background-color: #182533; /* Memastikan background keterangan solid */
 }
 
 .info b {
     display: block;
     margin-bottom: 5px;
+    line-height: 1.4;
 }
 
 .info .date {
     color: #6ab3f3;
     font-size: 11px;
+    display: block;
+    margin-top: 5px;
 }
 
 /* Modal / Lightbox (Popup Gambar) */
@@ -183,7 +196,25 @@ body {
     color: #ff6b6b;
 }
 
-/* Android View */
+/* =========================================
+   PENGATURAN RESPONSIVE (UKURAN LAYAR)
+   ========================================= */
+
+/* Untuk Laptop Standar / Tablet Horizontal */
+@media (max-width: 1200px) {
+    .gallery {
+        column-count: 3;
+    }
+}
+
+/* Untuk Tablet Vertikal / Laptop Kecil */
+@media (max-width: 900px) {
+    .gallery {
+        column-count: 2;
+    }
+}
+
+/* Untuk HP Android / iOS */
 @media (max-width: 768px) {
     #sidebar {
         position: absolute;
@@ -193,6 +224,11 @@ body {
     }
     
     .gallery {
-        grid-template-columns: 1fr;
+        column-count: 1; /* Di HP akan tampil 1 kolom penuh ke bawah */
+        padding: 15px;
+    }
+    
+    .card {
+        margin-bottom: 20px; /* Jarak yang sedikit lebih lega di HP */
     }
 }
