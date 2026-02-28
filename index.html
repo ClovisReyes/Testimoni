@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimoni Saya - GitHub Backup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="chat-item">
+            <div class="avatar">T</div>
+            <div class="chat-details">
+                <div class="name">Semua Testimoni</div>
+                <div class="status">online</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">📂 Folder Testimoni</div>
+        <div class="gallery" id="gallery">
+            </div>
+    </div>
+
+    <script>
+        // DAFTAR BACKUP FOTO ANDA
+        // Cukup tambah nama file foto baru di dalam kurung [ ] ini
+        const daftarFoto = [
+            'testi1.jpg',
+            'testi2.png',
+            'testi3.jpg'
+        ];
+
+        const gallery = document.getElementById('gallery');
+        
+        daftarFoto.forEach(namaFile => {
+            const img = document.createElement('img');
+            img.src = `foto/${namaFile}`;
+            img.alt = `Testimoni`;
+            img.loading = 'lazy';
+            gallery.appendChild(img);
+        });
+    </script>
+
+</body>
+</html>
