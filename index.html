@@ -3,56 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testimoni Otomatis</title>
+    <title>Backup Testimoni</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="chat-item">
-            <div class="avatar">T</div>
-            <div class="chat-details"><b>Testimoni</b><br><small style="color:#6ab3f3">online</small></div>
+    <div id="sidebar">
+        <div class="chat-item active" onclick="loadPhotos('Fish It!')">
+            <div class="avatar">F</div>
+            <div class="chat-details"><b>Fish It!</b><br><small>Testimoni Game</small></div>
         </div>
+        <div class="chat-item" onclick="loadPhotos('N/A')"><div class="avatar">N</div><div class="chat-details"><b>N/A</b></div></div>
+        <div class="chat-item" onclick="loadPhotos('N/A')"><div class="avatar">N</div><div class="chat-details"><b>N/A</b></div></div>
+        <div class="chat-item" onclick="loadPhotos('N/A')"><div class="avatar">N</div><div class="chat-details"><b>N/A</b></div></div>
+        <div class="chat-item" onclick="loadPhotos('N/A')"><div class="avatar">N</div><div class="chat-details"><b>N/A</b></div></div>
+        <div class="chat-item" onclick="loadPhotos('N/A')"><div class="avatar">N</div><div class="chat-details"><b>N/A</b></div></div>
     </div>
 
     <div class="main-content">
-        <div class="header">📂 Galeri Backup Otomatis</div>
-        <div id="gallery" class="gallery">
-            <p id="loading">Sedang mengambil foto...</p>
+        <div class="header">
+            <button id="toggle-btn">☰</button>
+            <b id="folder-name">Galeri Backup Otomatis</b>
         </div>
+        <div id="gallery" class="gallery"></div>
     </div>
 
-<script>
-    // SESUAIKAN DENGAN DATA GITHUB ANDA
-    const username = 'ClovisReyes';       // Contoh Username Anda
-    const repo = 'Testimoni';        // Contoh Nama Repository Anda
-    const folder = 'Testi';             // SUDAH DIGANTI: Membaca folder 'Testi'
+    <script>
+        const username = 'ClovisReyes';
+        const repo = 'Testimoni';
+        const sidebar = document.getElementById('sidebar');
 
-    async function loadPhotos() {
-        // Alamat API GitHub untuk melihat isi folder 'Testi'
-        const url = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
-        const gallery = document.getElementById('gallery');
-        
-        try {
-            const response = await fetch(url);
-            const files = await response.json();
+        // Fitur Buka Tutup
+        document.getElementById('toggle-btn').onclick = () => sidebar.classList.toggle('hidden');
+
+        async function loadPhotos(folderName) {
+            document.getElementById('folder-name').innerText = folderName;
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = 'Memuat...';
+
+            const url = `https://api.github.com/repos/${username}/${repo}/contents/Testi/${folderName}`;
             
-            document.getElementById('loading').style.display = 'none';
+            try {
+                const response = await fetch(url);
+                const files = await response.json();
+                gallery.innerHTML = '';
 
-            files.forEach(file => {
-                // Filter hanya file gambar agar tampilan rapi
-                if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                    const img = document.createElement('img');
-                    img.src = file.download_url; 
-                    img.loading = 'lazy';
-                    gallery.appendChild(img);
-                }
-            });
-        } catch (error) {
-            console.error('Gagal mengambil foto:', error);
-            document.getElementById('loading').innerText = 'Data tidak ditemukan. Pastikan folder "Testi" sudah ada di GitHub.';
+                files.forEach(file => {
+                    if (file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        
+                        // Caption diambil dari nama file (contoh: "Pelanggan Puas_2024-05-20.jpg")
+                        const nameParts = file.name.split('_');
+                        const caption = nameParts[0].replace(/-/g, ' ');
+                        const date = nameParts[1] ? nameParts[1].split('.')[0] : 'Tanggal tidak ada';
+
+                        card.innerHTML = `
+                            <img src="${file.download_url}" loading="lazy">
+                            <div class="info">
+                                <b>${caption}</b>
+                                <span class="date">📅 Posted: ${date}</span>
+                            </div>
+                        `;
+                        gallery.appendChild(card);
+                    }
+                });
+            } catch (e) { gallery.innerHTML = 'Folder kosong atau belum dibuat.'; }
         }
-    }
 
-    loadPhotos();
-</script>
+        loadPhotos('Fish It!'); // Load awal
+    </script>
+</body>
+</html>
