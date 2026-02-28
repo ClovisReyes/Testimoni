@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testimoni Saya - GitHub Backup</title>
+    <title>Testimoni Otomatis</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,38 +11,48 @@
     <div class="sidebar">
         <div class="chat-item">
             <div class="avatar">T</div>
-            <div class="chat-details">
-                <div class="name">Semua Testimoni</div>
-                <div class="status">online</div>
-            </div>
+            <div class="chat-details"><b>Testimoni</b><br><small style="color:#6ab3f3">online</small></div>
         </div>
     </div>
 
     <div class="main-content">
-        <div class="header">📂 Folder Testimoni</div>
-        <div class="gallery" id="gallery">
-            </div>
+        <div class="header">📂 Galeri Backup Otomatis</div>
+        <div id="gallery" class="gallery">
+            <p id="loading">Sedang mengambil foto...</p>
+        </div>
     </div>
 
-    <script>
-        // DAFTAR BACKUP FOTO ANDA
-        // Cukup tambah nama file foto baru di dalam kurung [ ] ini
-        const daftarFoto = [
-            'testi1.jpg',
-            'testi2.png',
-            'testi3.jpg'
-        ];
+<script>
+    // SESUAIKAN DENGAN DATA GITHUB ANDA
+    const username = 'ClovisReyes';       // Contoh Username Anda
+    const repo = 'Testimoni';        // Contoh Nama Repository Anda
+    const folder = 'Testi';             // SUDAH DIGANTI: Membaca folder 'Testi'
 
+    async function loadPhotos() {
+        // Alamat API GitHub untuk melihat isi folder 'Testi'
+        const url = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
         const gallery = document.getElementById('gallery');
         
-        daftarFoto.forEach(namaFile => {
-            const img = document.createElement('img');
-            img.src = `foto/${namaFile}`;
-            img.alt = `Testimoni`;
-            img.loading = 'lazy';
-            gallery.appendChild(img);
-        });
-    </script>
+        try {
+            const response = await fetch(url);
+            const files = await response.json();
+            
+            document.getElementById('loading').style.display = 'none';
 
-</body>
-</html>
+            files.forEach(file => {
+                // Filter hanya file gambar agar tampilan rapi
+                if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                    const img = document.createElement('img');
+                    img.src = file.download_url; 
+                    img.loading = 'lazy';
+                    gallery.appendChild(img);
+                }
+            });
+        } catch (error) {
+            console.error('Gagal mengambil foto:', error);
+            document.getElementById('loading').innerText = 'Data tidak ditemukan. Pastikan folder "Testi" sudah ada di GitHub.';
+        }
+    }
+
+    loadPhotos();
+</script>
