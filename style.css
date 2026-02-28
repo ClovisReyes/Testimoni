@@ -14,8 +14,12 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 #toggle-btn { background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer; margin-right: 15px; padding: 0; }
 #toggle-btn:hover { color: #6ab3f3; }
 
-.gallery { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; overflow-y: auto; flex-grow: 1; }
-.card { background-color: #182533; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #222; }
+/* PERBAIKAN: align-items: start agar kotak foto pas dan tidak melar ke bawah */
+.gallery { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; overflow-y: auto; flex-grow: 1; align-items: start; }
+
+/* PERBAIKAN: Border kotak warna biru pudar agar terlihat jelas bedanya */
+.card { background-color: #182533; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #4a6a8a; }
+
 .card img { width: 100%; cursor: pointer; transition: opacity 0.2s; }
 .card img:hover { opacity: 0.8; }
 .info { padding: 10px; font-size: 13px; }
