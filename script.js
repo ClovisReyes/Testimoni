@@ -11,10 +11,11 @@ const baseFolder = 'Testi';
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('toggle-btn');
 const mainContent = document.querySelector('.main-content');
+const scrollTopBtn = document.getElementById('scroll-top-btn');
 
-// Fungsi Tombol Menu
+// Fungsi Tombol Menu Sidebar
 toggleBtn.addEventListener('click', function(e) {
-    e.stopPropagation(); // Mencegah klik tembus
+    e.stopPropagation(); 
     sidebar.classList.toggle('hidden');
     if (window.innerWidth <= 768) {
         mainContent.classList.toggle('sidebar-active');
@@ -29,14 +30,22 @@ mainContent.addEventListener('click', function() {
     }
 });
 
+// FUNGSI SCROLL KE ATAS (TITIK TIGA)
+scrollTopBtn.addEventListener('click', function() {
+    const gallery = document.getElementById('gallery');
+    // Memerintahkan area galeri untuk gulir ke titik 0 (paling atas) dengan halus
+    gallery.scrollTo({
+        top: 0,
+        behavior: 'smooth' 
+    });
+});
+
 // Fungsi memuat gambar 
 async function loadPhotos(folderName, element) {
-    // Styling menu aktif
     if(element) {
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
         
-        // Tutup otomatis sidebar di HP setelah diklik
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
             mainContent.classList.remove('sidebar-active');
@@ -60,30 +69,25 @@ async function loadPhotos(folderName, element) {
         const files = await response.json();
         gallery.innerHTML = '';
         
-        // HITUNG OTOMATIS: Memisahkan file gambar dan menghitung jumlahnya
         const images = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp)$/i));
         const totalTesti = images.length;
         
-        // Munculkan jumlah HANYA di Header Atas
         folderTitle.innerText = `${folderName} - ${totalTesti} Testimoni`;
 
-        // Jika foldernya kosong / tidak ada gambar
         if (totalTesti === 0) {
             gallery.innerHTML = `<p style="padding:20px;">Tidak ada gambar di folder ini.</p>`;
             return;
         }
 
-        // Tampilkan semua gambar
         images.forEach(file => {
             const card = document.createElement('div');
             card.className = 'card';
             
-            // SISTEM CAPTION
-            const fileNameTanpaExt = file.name.replace(/\.[^/.]+$/, ""); // Buang .jpg
+            const fileNameTanpaExt = file.name.replace(/\.[^/.]+$/, ""); 
             const nameParts = fileNameTanpaExt.split('_');
             
-            let caption = nameParts[0].replace(/-/g, ' '); // Ganti strip jadi spasi
-            caption = caption.replace(/~/g, '<br>'); // Ganti tilde jadi baris baru
+            let caption = nameParts[0].replace(/-/g, ' '); 
+            caption = caption.replace(/~/g, '<br>'); 
             
             const date = nameParts[1] ? nameParts[1] : 'Tanggal tidak ada';
 
@@ -126,7 +130,6 @@ function closeModal() {
 document.addEventListener('DOMContentLoaded', () => {
     const activeItem = document.querySelector('.chat-item.active');
     if(activeItem) {
-        // Mensimulasikan klik otomatis pada menu agar tidak salah baca nama folder
         activeItem.click();
     }
 });
