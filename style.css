@@ -5,8 +5,7 @@ body {
     color: #ffffff;
     margin: 0;
     display: flex;
-    /* PERBAIKAN: Menggunakan dvh agar pas dengan layar browser HP */
-    height: 100dvh; 
+    height: 100dvh; /* dvh agar tidak terpotong bar HP */
     overflow: hidden;
 }
 
@@ -19,11 +18,33 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    z-index: 1001; /* Pastikan di atas konten */
+    z-index: 1001; /* Di atas konten */
 }
 
 #sidebar.hidden {
     margin-left: -280px;
+}
+
+/* Styling untuk Deskripsi di atas Sidebar */
+.sidebar-info {
+    padding: 25px 15px;
+    background-color: #17212b;
+    border-bottom: 1px solid #000000;
+    text-align: center;
+}
+
+.sidebar-info h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #6ab3f3;
+    font-weight: bold;
+}
+
+.sidebar-info p {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: #8fa6b2;
+    line-height: 1.6;
 }
 
 .chat-item {
@@ -100,7 +121,7 @@ body {
 }
 
 /* =========================================
-   KONSEP SCROLL TERSUSUN KE BAWAH (DIPERBAIKI)
+   KONSEP SCROLL TERSUSUN KE BAWAH
    ========================================= */
 .gallery {
     padding: 20px;
@@ -110,7 +131,6 @@ body {
     gap: 30px; 
     overflow-y: auto;
     flex-grow: 1;
-    /* Smooth scrolling untuk Android */
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch; 
 }
@@ -215,9 +235,9 @@ body {
         max-width: 100%;
     }
 
-    /* Efek gelap saat sidebar terbuka di HP */
+    /* Area konten agak gelap saat sidebar dibuka */
     .main-content.sidebar-active {
         filter: brightness(0.4);
-        pointer-events: none; /* Area konten tidak bisa diklik saat sidebar muncul */
+        pointer-events: none; 
     }
 }
