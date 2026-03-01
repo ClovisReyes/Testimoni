@@ -30,10 +30,9 @@ mainContent.addEventListener('click', function() {
     }
 });
 
-// FUNGSI SCROLL KE ATAS (TITIK TIGA)
+// FUNGSI SCROLL KE ATAS
 scrollTopBtn.addEventListener('click', function() {
     const gallery = document.getElementById('gallery');
-    // Memerintahkan area galeri untuk gulir ke titik 0 (paling atas) dengan halus
     gallery.scrollTo({
         top: 0,
         behavior: 'smooth' 
@@ -69,9 +68,13 @@ async function loadPhotos(folderName, element) {
         const files = await response.json();
         gallery.innerHTML = '';
         
-        const images = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp)$/i));
-        const totalTesti = images.length;
+        // Memisahkan file gambar
+        let images = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp)$/i));
         
+        // KUNCI PERBAIKAN: Membalik urutan agar yang TERBARU muncul paling ATAS
+        images.reverse();
+
+        const totalTesti = images.length;
         folderTitle.innerText = `${folderName} - ${totalTesti} Testimoni`;
 
         if (totalTesti === 0) {
